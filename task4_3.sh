@@ -30,17 +30,17 @@
 	exit 1
 	fi
 	
-	
 	bdir="${1}"
-	bnum="$2"
-	bdname=$(echo "${1}" | sed 's/^[/]//' | sed -r 's/[/]/-/g')
-	file=${bname}-$(date '+%Y-%m-%d-%H%M%S').tar.gz
+        bnum="$2"
+        bdname=$(echo "${1}" | sed 's/^[/]//' | sed -r 's/[/]/-/g')
+        file=${bdname}-$(date '+%Y-%m-%d-%H%M%S').tar.gz
+
+
+        tar --create --gzip --file="$dir$file" "${bdir}" 2> /dev/null
+
+        rm -f $(find "$dir" -name "${bdname}*" -type f -printf "%Ts\t$dir%P\n" | sort -n | head -n -"$2" | cut -f 2- )
+
+
+        exit 0
+
 	
-	
-	tar --create --gzip --file="$bdir$file" "${bdir}" 2> /dev/null
-	
-	
-	rm -f $(find "$bdir" -name "${bdname}*" -type f -printf "%Ts\t$bdir%P\n" | sort -n | head -n -"$2" | cut -f 2- )
-	
-	
-	exit 0
